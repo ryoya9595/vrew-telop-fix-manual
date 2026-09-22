@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vrewの字幕をAIで直してPremiereへ</title>
-<meta name="description" content="Vrewで作った字幕の誤字・固有名詞をAIエージェントが直し、タイムコードを崩さずにPremiere Proへ戻す仕組みの導入マニュアル。プロンプトを1回貼るだけで自分のPCに作れます。">
+<meta name="description" content="Vrewで作った字幕の誤字・固有名詞をAIエージェントが直し、タイムコードを崩さずにPremiere Proへ戻す仕組みの導入マニュアル。このページのURLをAIエージェントに貼るだけで自分のPCに作れます。AIエージェントは files/agent-guide.md の手順書を原文で読んで進めてください。">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,7 @@
 <header class="hero">
   <div class="hero-badge accent">AIエージェント 導入マニュアル</div>
   <h1>字幕の誤字直しを、<br><span class="hl">AIに任せる。</span></h1>
-  <p class="lead">Vrew で作った字幕を書き出して、AIエージェントが誤字と固有名詞だけを直し、タイムコードはそのままで Premiere Pro に戻します。プロンプトを1回貼るだけで、自分のPCにこの仕組みを作れます。</p>
+  <p class="lead">Vrew で作った字幕を書き出して、AIエージェントが誤字と固有名詞だけを直し、タイムコードはそのままで Premiere Pro に戻します。<strong>このページのURLをAIエージェントに貼るだけ</strong>で、自分のPCにこの仕組みを作れます。</p>
   <div class="meta">
     <span class="chip accent">タイムコードは崩さない</span>
     <span class="chip">Claude Code / Codex</span>
@@ -39,6 +39,17 @@
 </header>
 
 <main>
+
+<!-- AIエージェント向けの案内（JavaScriptなしで読めるように本文に直接書いている） -->
+<section id="for-ai" class="card" style="margin-top:8px">
+  <h3>🤖 このページを読み込んだAIエージェントへ</h3>
+  <p>ユーザーは、このページの仕組み（Vrew で書き出した字幕ファイル SRT の誤字・固有名詞をAIが直し、タイムコードを崩さずに Premiere Pro に戻す仕組み）を自分のPCに作りたくて、このURLを渡しています。次の順に進めてください。</p>
+  <ol>
+    <li>手順書 <a href="files/agent-guide.md">https://ryoya9595.github.io/vrew-telop-fix-manual/files/agent-guide.md</a> を、要約するツールではなく<strong>原文のまま</strong>ダウンロードして全文を読む（Windows は PowerShell の Invoke-WebRequest、Mac は curl）。</li>
+    <li>手順書のフェーズA（今のやり方を聞く）→ B（置き場を作る）→ C（いつもの手順を保存）→ D（実際の字幕1本で確認）の順に、ユーザーと会話しながら進める。各フェーズの終わりに短く報告する。</li>
+    <li>インストールや設定を変える前は、何をするか説明してユーザーの了承を取る。元の字幕ファイルは上書きしない。タイムコードは1文字も変えない。.env など認証情報のファイルは読まない。</li>
+  </ol>
+</section>
 
 <!-- 01 これは何 -->
 <section id="what">
@@ -105,18 +116,33 @@
 
 <!-- 03 導入 -->
 <section id="install">
-  <div class="sec-head"><div class="step-num">03</div><h2>導入 — プロンプトを1回貼るだけ</h2></div>
+  <div class="sec-head"><div class="step-num">03</div><h2>導入 — URLを貼るだけ</h2></div>
   <div class="card">
-    <h3>STEP 1　AIエージェントにこのプロンプトを貼る</h3>
-    <p>貼ったら、あとはAIの質問に答えていくだけです。</p>
+    <h3>STEP 1　AIエージェントにこのページのURLを貼る</h3>
+    <p>Claude Code か Codex を開いて、このページのURLを貼って送るだけです。あとはAIの質問に答えていきます。</p>
     <div class="prompt-box" style="margin-top:12px">
       <div class="prompt-head">
         <div class="dots"><i></i><i></i><i></i></div>
-        <span class="fname">導入プロンプト</span>
-        <button class="copy-btn" data-target="installPrompt">コピー</button>
+        <span class="fname">AIに貼るもの</span>
+        <button class="copy-btn" data-target="urlPrompt">コピー</button>
       </div>
-      <div class="prompt-scroll"><pre id="installPrompt"></pre></div>
+      <div class="prompt-scroll"><pre id="urlPrompt">https://ryoya9595.github.io/vrew-telop-fix-manual/
+このページの仕組みを、私のPCに作って。</pre></div>
     </div>
+    <details style="margin-top:12px">
+      <summary>AIがうまく読んでくれないとき（長いプロンプト版）</summary>
+      <div class="d-body">
+        <p>URLだけだと進め方がずれる場合は、こちらを貼ってください。</p>
+        <div class="prompt-box" style="margin-top:8px">
+          <div class="prompt-head">
+            <div class="dots"><i></i><i></i><i></i></div>
+            <span class="fname">導入プロンプト</span>
+            <button class="copy-btn" data-target="installPrompt">コピー</button>
+          </div>
+          <div class="prompt-scroll"><pre id="installPrompt"></pre></div>
+        </div>
+      </div>
+    </details>
   </div>
 
   <div class="card">

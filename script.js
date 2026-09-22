@@ -25,7 +25,11 @@ const USE_PROMPT = `この字幕を直して：D:\\動画\\〇〇社_0923.srt
 const TUNE_PROMPT = `今回わたしが直した言葉を、用語集に足しておいて。
 （例：「〇〇」は「△△」と書く／数字は半角／このクライアントは「インスタ」ではなく「Instagram」）`;
 
+const URL_PROMPT = `https://ryoya9595.github.io/vrew-telop-fix-manual/
+このページの仕組みを、私のPCに作って。`;
+
 const TEXTS = {
+  urlPrompt: URL_PROMPT,
   installPrompt: INSTALL_PROMPT,
   usePrompt: USE_PROMPT,
   tunePrompt: TUNE_PROMPT,
