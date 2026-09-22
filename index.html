@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vrewの字幕をAIで直してPremiereへ</title>
+<meta name="description" content="Vrewで作った字幕の誤字・固有名詞をAIエージェントが直し、タイムコードを崩さずにPremiere Proへ戻す仕組みの導入マニュアル。プロンプトを1回貼るだけで自分のPCに作れます。">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <a class="logo" href="./">✏️ Vrew × AI × <span class="brain">Premiere</span></a>
+    <nav class="topnav">
+      <a href="#what">これは何？</a>
+      <a href="#ready">準備</a>
+      <a href="#install">導入</a>
+      <a href="#use">使い方</a>
+      <a href="#premiere">Premiereへ</a>
+      <a href="#trouble">困ったとき</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-badge accent">AIエージェント 導入マニュアル</div>
+  <h1>字幕の誤字直しを、<br><span class="hl">AIに任せる。</span></h1>
+  <p class="lead">Vrew で作った字幕を書き出して、AIエージェントが誤字と固有名詞だけを直し、タイムコードはそのままで Premiere Pro に戻します。プロンプトを1回貼るだけで、自分のPCにこの仕組みを作れます。</p>
+  <div class="meta">
+    <span class="chip accent">タイムコードは崩さない</span>
+    <span class="chip">Claude Code / Codex</span>
+    <span class="chip">Windows・Mac</span>
+  </div>
+</header>
+
+<main>
+
+<!-- 01 これは何 -->
+<section id="what">
+  <div class="sec-head"><div class="step-num">01</div><h2>これは何？ — 誤字直しの時間を減らす</h2></div>
+
+  <div class="ba">
+    <div class="card before">
+      <span class="tag">BEFORE</span>
+      <p><strong>Vrew の字幕を目で1枚ずつ直す</strong></p>
+      <div class="bubble">変換ミス・固有名詞のまちがいを全部自分で探す</div>
+      <div class="bubble">同じまちがいを毎回直している</div>
+    </div>
+    <div class="card after">
+      <span class="tag">AFTER</span>
+      <p><strong>「この字幕を直して」と頼むだけ</strong></p>
+      <div class="bubble">AIが誤字を直して、変更一覧を出してくれる</div>
+      <div class="bubble">自分は一覧を確認して、Premiere に読み込むだけ</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔁 流れ</h3>
+    <div class="flow">
+      <div class="flow-item"><div class="flow-dot">1</div><div class="flow-body"><b>Vrew で字幕を書き出す</b><span>字幕ファイル（.srt）として保存する</span></div></div>
+      <div class="flow-item"><div class="flow-line"></div></div>
+      <div class="flow-item"><div class="flow-dot">2</div><div class="flow-body"><b>AIが誤字だけ直す</b><span>用語集と台本を見ながら。タイムコードは触らない</span></div></div>
+      <div class="flow-item"><div class="flow-line"></div></div>
+      <div class="flow-item"><div class="flow-dot">3</div><div class="flow-body"><b>機械でチェック</b><span>タイムコードと枚数が元のままか、スクリプトが1文字ずつ比べる</span></div></div>
+      <div class="flow-item"><div class="flow-line"></div></div>
+      <div class="flow-item"><div class="flow-dot">4</div><div class="flow-body"><b>変更一覧を確認</b><span>どこをどう直したかを見て、迷った所だけ答える</span></div></div>
+      <div class="flow-item"><div class="flow-line"></div></div>
+      <div class="flow-item"><div class="flow-dot">5</div><div class="flow-body"><b>Premiere に読み込む</b><span>見た目はトラックスタイルで一括で当てる</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✅ 減るもの・減らないもの</h3>
+    <table>
+      <tr><th>AIに任せられる</th><th>自分でやる</th></tr>
+      <tr><td>変換ミス・誤字脱字の修正</td><td>テロップの色・位置・強調・動き</td></tr>
+      <tr><td>固有名詞（人名・商品名・ツール名）の統一</td><td>カットのタイミングの調整</td></tr>
+      <tr><td>数字や単位の表記をそろえる</td><td>変更一覧の最終確認</td></tr>
+    </table>
+  </div>
+
+  <div class="note tip"><span class="ico">💡</span><span><strong>なぜ Premiere をAIに直接操作させないの？</strong> AIに編集ソフトを操作させる方法は、バージョンによって指示が無視されることがあり不安定です。字幕ファイルはただの文字なので、AIが確実に読んで直せます。</span></div>
+</section>
+
+<!-- 02 準備 -->
+<section id="ready">
+  <div class="sec-head"><div class="step-num">02</div><h2>準備するもの</h2></div>
+  <div class="card">
+    <table>
+      <tr><th>必要なもの</th><th>目安</th></tr>
+      <tr><td><b>AIエージェント</b></td><td>Claude Code か Codex（どちらも有料プランが必要）</td></tr>
+      <tr><td>Python</td><td class="mono">3.8 以上（無ければ導入の最初に案内されます）</td></tr>
+      <tr><td>Vrew</td><td>字幕の書き出しができれば、今のままでOK</td></tr>
+      <tr><td>Premiere Pro</td><td>キャプション（字幕）機能がある版</td></tr>
+      <tr><td>練習用の字幕</td><td>1〜3分くらいの短い動画の字幕</td></tr>
+    </table>
+  </div>
+  <div class="note warn"><span class="ico">⚠️</span><span><strong>今どうやって字幕を Premiere に持っていっているか</strong>で、少し進め方が変わります。導入の最初にAIが聞くので、Vrew の書き出し画面と Premiere の画面をすぐ開けるようにしておいてください。</span></div>
+</section>
+
+<!-- 03 導入 -->
+<section id="install">
+  <div class="sec-head"><div class="step-num">03</div><h2>導入 — プロンプトを1回貼るだけ</h2></div>
+  <div class="card">
+    <h3>STEP 1　AIエージェントにこのプロンプトを貼る</h3>
+    <p>貼ったら、あとはAIの質問に答えていくだけです。</p>
+    <div class="prompt-box" style="margin-top:12px">
+      <div class="prompt-head">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="fname">導入プロンプト</span>
+        <button class="copy-btn" data-target="installPrompt">コピー</button>
+      </div>
+      <div class="prompt-scroll"><pre id="installPrompt"></pre></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>STEP 2　進む流れ</h3>
+    <div class="flow">
+      <div class="flow-item"><div class="flow-dot">A</div><div class="flow-body"><b>今のやり方を聞かれる</b><span>字幕の持っていき方・よく出る固有名詞・今1本に何分かかっているか</span></div></div>
+      <div class="flow-item"><div class="flow-line"></div></div>
+      <div class="flow-item"><div class="flow-dot">B</div><div class="flow-body"><b>置き場を作る</b><span>チェック用スクリプトと用語集を置く（作る前に確認があります）</span></div></div>
+      <div class="flow-item"><div class="flow-line"></div></div>
+      <div class="flow-item"><div class="flow-dot">C</div><div class="flow-body"><b>いつもの手順を保存</b><span>次から「この字幕を直して」だけで動くようにする</span></div></div>
+      <div class="flow-item"><div class="flow-line"></div></div>
+      <div class="flow-item"><div class="flow-dot">D</div><div class="flow-body"><b>実際の字幕1本で試す</b><span>直す → チェック → Premiere に読み込んでずれがないか確認</span></div></div>
+    </div>
+  </div>
+
+  <details>
+    <summary>📂 配布ファイル（AIがダウンロードするもの）</summary>
+    <div class="d-body">
+      <table>
+        <tr><th>ファイル</th><th>中身</th></tr>
+        <tr><td><a href="files/agent-guide.md">agent-guide.md</a></td><td>AIエージェントが読む手順書</td></tr>
+        <tr><td><a href="files/srt_check.py">srt_check.py</a></td><td>直した字幕のタイムコード・枚数が元のままか確かめるスクリプト</td></tr>
+        <tr><td><a href="files/SKILL_template.md">SKILL_template.md</a></td><td>いつもの手順（スキル）のひな形</td></tr>
+        <tr><td><a href="files/glossary_sample.txt">glossary_sample.txt</a></td><td>用語集の書き方の見本</td></tr>
+      </table>
+    </div>
+  </details>
+</section>
+
+<!-- 04 使い方 -->
+<section id="use">
+  <div class="sec-head"><div class="step-num">04</div><h2>使い方 — 毎回やること</h2></div>
+  <div class="card">
+    <h3>① Vrew で字幕を書き出す</h3>
+    <p>カットを終えてから、字幕ファイル（.srt）で書き出します。<strong>カットを変えるとタイムコードも変わるので、誤字直しはカットが決まってから</strong>にしてください。</p>
+  </div>
+  <div class="card">
+    <h3>② AIに頼む</h3>
+    <div class="prompt-box" style="margin-top:12px">
+      <div class="prompt-head">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="fname">いつもの頼み方</span>
+        <button class="copy-btn" data-target="usePrompt">コピー</button>
+      </div>
+      <div class="prompt-scroll"><pre id="usePrompt"></pre></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>③ 変更一覧を確認する</h3>
+    <p>同じフォルダに <code>〇〇_fixed.srt</code>（直した字幕）と <code>〇〇_fixed_変更一覧.txt</code> ができます。一覧で「前 → 後」を見て、おかしい所があれば伝えてください。AIが迷った所は「要確認」として聞いてきます。</p>
+  </div>
+  <div class="card">
+    <h3>④ 直した言葉を覚えさせる</h3>
+    <p>自分で直した言葉は用語集に足しておくと、次から同じまちがいをしなくなります。</p>
+    <div class="prompt-box" style="margin-top:12px">
+      <div class="prompt-head">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <span class="fname">育てるとき</span>
+        <button class="copy-btn" data-target="tunePrompt">コピー</button>
+      </div>
+      <div class="prompt-scroll"><pre id="tunePrompt"></pre></div>
+    </div>
+  </div>
+  <div class="note ok"><span class="ico">⏱</span><span><strong>時間を記録しておく</strong>と、どれだけ減ったかが数字でわかります。AIが1本ごとに「何分かかった？」と聞いて記録します。</span></div>
+</section>
+
+<!-- 05 Premiere -->
+<section id="premiere">
+  <div class="sec-head"><div class="step-num">05</div><h2>Premiere に読み込む</h2></div>
+  <div class="card">
+    <h3>字幕を入れる</h3>
+    <ul>
+      <li>ファイル → 読み込み → <code>〇〇_fixed.srt</code> を選ぶ</li>
+      <li>プロジェクトパネルに入った字幕を、タイムラインにドラッグする（キャプションのトラックになります）</li>
+      <li>始まりの位置が動画とそろっているか、何か所か再生して確かめる</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>見た目を一括で当てる</h3>
+    <p>字幕ファイルには色やフチの情報が入っていません。キャプショントラックに<strong>トラックスタイル</strong>を作って保存しておけば、次からは選ぶだけで全部の字幕に同じ見た目が付きます。1枚ずつ直す必要はありません。</p>
+  </div>
+  <div class="note tip"><span class="ico">💡</span><span>メニューの名前は Premiere のバージョンで少し違います。見つからないときは、AIに画面のスクリーンショットを見せて聞いてください。</span></div>
+  <div class="note warn"><span class="ico">⚠️</span><span><strong>もう Premiere に字幕が入っている場合</strong>（Vrew から Premiere 用に書き出している場合など）は、Premiere から字幕を SRT で書き出して直すやり方もあります。導入のときにAIが画面を確認して、合うやり方を案内します。</span></div>
+</section>
+
+<!-- 06 困ったとき -->
+<section id="trouble">
+  <div class="sec-head"><div class="step-num">06</div><h2>困ったとき</h2></div>
+
+  <details>
+    <summary>「タイムコードが変わっています」と出た</summary>
+    <div class="d-body">
+      <p>AIが時間の行を触ってしまった合図です。Premiere には読み込まず、AIに「作り直して」と伝えてください。元の字幕は変わっていないので安心してください。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Premiere で字幕が文字化けする</summary>
+    <div class="d-body">
+      <p>文字コードの違いです。AIに「文字化けした」と伝えると、元の字幕と同じ形式で保存し直します。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>読み込んだら字幕が全部ずれている</summary>
+    <div class="d-body">
+      <p>AIが直した字幕ではなく、元の字幕を読み込んでもずれるか試してください。元でもずれるなら、Vrew で書き出した時点か、Premiere のシーケンスの設定が原因です。AIに症状を伝えれば、一緒に切り分けます。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>同じ固有名詞を毎回まちがえる</summary>
+    <div class="d-body">
+      <p>「〇〇は△△と書くって用語集に足して」と伝えてください。次から直ります。</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>使わなくなったので消したい</summary>
+    <div class="d-body">
+      <p>AIに「字幕の誤字直しの仕組みをアンインストールして」と伝えてください。確認を取りながら、置き場のフォルダといつもの手順を消します。直した字幕のファイルは残ります。</p>
+    </div>
+  </details>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-in">
+    <span>✏️ Vrewの字幕をAIで直してPremiereへ</span>
+    <span>制作：関 諒也</span>
+  </div>
+</footer>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
